@@ -1,2 +1,3 @@
+include ':lifegame'
 include ':app'
 rootProject.name = "ArrowComposeGameOfLife"

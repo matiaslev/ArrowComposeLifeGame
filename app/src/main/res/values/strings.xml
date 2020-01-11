@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ArrowComposeGameOfLife</string>
+    <string name="title_activity_pattern_picker">Pick the Pattern</string>
 </resources>
