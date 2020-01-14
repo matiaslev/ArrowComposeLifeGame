@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     fun listPatterns(store: Store) {
         Column {
             Pattern.all().forEach {
-                Button(text = "${it::class.java.canonicalName}",
+                Button(text = it::class.java.simpleName,
                     style = TextButtonStyle(),
                     onClick = { store.send(ConwayAction.select(it)) }
                 )
