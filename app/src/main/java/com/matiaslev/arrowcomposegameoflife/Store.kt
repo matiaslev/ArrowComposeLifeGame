@@ -1,13 +1,11 @@
 package com.matiaslev.arrowcomposegameoflife
 
-import androidx.compose.Model
 import androidx.lifecycle.MutableLiveData
 import lifegame.Cell
 import lifegame.ConwayAction
 import lifegame.Pattern
 import lifegame.conwayReducer
 
-@Model
 class Store(var grid: List<List<Cell>> = Pattern.blinker.grid()) {
 
     val observable = MutableLiveData<Store>()

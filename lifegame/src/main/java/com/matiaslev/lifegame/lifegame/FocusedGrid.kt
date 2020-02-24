@@ -17,7 +17,7 @@ interface FocusedGridFunctor: Functor<ForFocusedGrid> {
 }
 
 @extension
-interface FocusedGridComonad: Comonad<ForFocusedGrid> {
+interface FocusedGridComonad: Comonad<ForFocusedGrid>, FocusedGridFunctor {
     override fun <A, B> Kind<ForFocusedGrid, A>.coflatMap(f: (Kind<ForFocusedGrid, A>) -> B): Kind<ForFocusedGrid, B> {
         return FocusedGrid(
             focus = fix().focus,
@@ -34,10 +34,6 @@ interface FocusedGridComonad: Comonad<ForFocusedGrid> {
 
     override fun <A> Kind<ForFocusedGrid, A>.extract(): A {
         return fix().subscript(fix().focus)
-    }
-
-    override fun <A, B> Kind<ForFocusedGrid, A>.map(f: (A) -> B): Kind<ForFocusedGrid, B> {
-        TODO() // Not Needed, use the implementation inside Functor
     }
 }
 

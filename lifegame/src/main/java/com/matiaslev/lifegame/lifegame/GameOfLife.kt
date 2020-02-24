@@ -10,7 +10,7 @@ import lifegame.focusedgrid.comonad.extract
 import lifegame.focusedgrid.functor.map
 
 fun FocusedGrid<Int>.localSum(): Int {
-    val coefficients = listOf(-1, 0, 1).k()
+    val coefficients = listOf(-1, 0, 1)
     return coefficients.product(coefficients)
         .filter { it.a != 0 || it.b != 0 }
         .map { this.subscript(this.focus.a + it.a, this.focus.b + it.b) }

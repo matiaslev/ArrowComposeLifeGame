@@ -5,19 +5,19 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
 import androidx.lifecycle.Observer
-import androidx.ui.core.Alignment
 import androidx.ui.core.Text
-import androidx.ui.core.dp
 import androidx.ui.core.setContent
+import androidx.ui.foundation.AdapterList
 import androidx.ui.layout.Arrangement
+import androidx.ui.layout.Center
 import androidx.ui.layout.Column
-import androidx.ui.layout.ExpandedWidth
+import androidx.ui.layout.EdgeInsets
+import androidx.ui.layout.LayoutWidth
 import androidx.ui.layout.Row
-import androidx.ui.layout.Spacing
-import androidx.ui.layout.Stack
 import androidx.ui.material.Button
 import androidx.ui.material.MaterialTheme
-import androidx.ui.material.TextButtonStyle
+import androidx.ui.material.TextButton
+import androidx.ui.unit.dp
 import lifegame.ConwayAction
 import lifegame.Pattern
 import lifegame.description
@@ -53,67 +53,67 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     private fun drawGame(store: Store) {
-        Stack(modifier = ExpandedWidth) {
-            aligned(Alignment.Center) {
-                Grid(store)
-            }
-            aligned(Alignment.BottomCenter) {
-                Buttons(store)
-            }
+        Column(
+            arrangement = Arrangement.Center
+        ) {
+            Grid(store)
+            Buttons(store)
         }
     }
 
     @Composable
     fun listPatterns(store: Store) {
-        Column {
-            Pattern.all().forEach {
-                Button(text = it::class.java.simpleName,
-                    style = TextButtonStyle(),
-                    onClick = { store.send(ConwayAction.select(it)) }
-                )
+        AdapterList(
+            data = Pattern.all()
+        ) {
+            TextButton(onClick = { store.send(ConwayAction.select(it)) }) {
+                Text(text = it::class.java.simpleName)
             }
         }
     }
 
     @Composable
     fun Grid(store: Store) {
-        Column {
             store.grid.forEachIndexed { index1, list ->
-                Row {
+                Row(
+                    modifier = LayoutWidth.Fill,
+                    arrangement = Arrangement.Center
+                ) {
                     list.forEachIndexed { index2, cell ->
-                        Text(store.grid[index2][index1].description())
+                        Text(store.grid[index1][index2].description())
                     }
                 }
             }
-        }
     }
 
     @Composable
     fun Buttons(store: Store) {
-        Row(arrangement = Arrangement.SpaceEvenly) {
-            Button(
-                text = "Pattern",
-                modifier = Spacing(10.dp),
-                style = TextButtonStyle(),
+        Row(
+            modifier = LayoutWidth.Fill,
+            arrangement = Arrangement.SpaceEvenly
+        ) {
+            TextButton(
                 onClick = { Content(Screen.PickPattern, store) }
-            )
+            ) {
+                Text(text = "Pattern")
+            }
 
             if (store.isRunning.not()) {
-                Button(text = "Start",
-                    modifier = Spacing(10.dp),
-                    style = TextButtonStyle(),
+                TextButton(
                     onClick =
                     {
                         store.isRunning = true
                         nextStep(store)
                     }
-                )
+                ) {
+                    Text(text = "Start")
+                }
             } else {
-                Button(text = "Stop",
-                    modifier = Spacing(10.dp),
-                    style = TextButtonStyle(),
+                TextButton(
                     onClick = { store.isRunning = false }
-                )
+                ) {
+                    Text(text = "Stop")
+                }
             }
         }
     }
